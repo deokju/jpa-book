@@ -11,10 +11,13 @@ public class Member {
     @Column(name = "MEMBER_ID")
     private Long id;
 
-    private String userName;
+    private String username;
 
-    @OneToMany(mappedBy = "member")
-    private List<Order> orders = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn( name = "TEAM_ID")
+    private Team team;
+
 
     public Long getId() {
         return id;
@@ -24,19 +27,28 @@ public class Member {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public List<Order> getOrders() {
-        return orders;
+    public Team getTeam() {
+        return team;
     }
 
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", team=" + team +
+                '}';
     }
 }

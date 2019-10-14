@@ -1,6 +1,5 @@
 import entity.Member;
-import entity.Order;
-import entity.Product;
+import entity.Team;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -13,7 +12,23 @@ public class Application {
 
     public static void main(String[] args) {
         Application app = new Application();
-        app.testSave();
+        //app.testSave();
+        app.findsMemberByTeam();
+    }
+
+    private void findsMemberByTeam() {
+        EntityManager em = EMF.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+        et.begin();
+
+        Team teamA = em.find(Team.class,1l);
+
+        for(Member member :teamA.getMembers()) {
+            System.out.println(member);
+        }
+
+        et.commit();
+        em.close();
     }
 
     private void testSave() {
@@ -21,21 +36,14 @@ public class Application {
         EntityTransaction et = em.getTransaction();
         et.begin();
 
+        Team teamA = em.find(Team.class, 1l);
+
         Member member = new Member();
-        member.setUserName("김덕주");
+        member.setUsername("세라드");
+
+        member.setTeam(teamA);
+
         em.persist(member);
-
-        Product product = new Product();
-        product.setName("JPA MASTER BOOK");
-        em.persist(product);
-
-        Order order = new Order();
-        order.setMember(member);
-        order.setProduct(product);
-        order.setOrderAmount(4);
-
-        em.persist(order);
-
         et.commit();
         em.close();
     }
